@@ -1,0 +1,7 @@
+<form #formRef="ngForm" (ngSubmit)="onSubmit(formRef.value)">
+  <p>{{form.text}}</p>
+  <input type="range" name="range" min="{{form.computedAnswers[0]}}" max="{{form.computedAnswers[form.computedAnswers.length - 1]}}" step="1000" value="{{form.computedDefault}}" [(ngModel)]="formValue">
+  {{formValue}} {{formValue === 1 ? form.singular : form.plural}}
+  <button type="submit">Submit</button>
+</form>
+

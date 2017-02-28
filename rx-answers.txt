@@ -1,0 +1,13 @@
+1. Can you explain what a call to getInterval() does?
+The call to getInterval() return the first non-empty response from the call to "get(table, user_id, attributesToGet, msgID, i)" after 300ms. By the looks of the call to "this.db.getItem({})" within the get function, I'd say it just return the first non-empty row within the database, since the arguments aren't really passed to "this.db.getItem".
+
+2. What is the effect of using flatMap instead of map?
+flatMap is a function that is specific to reactive programming that's basically being used to flatten an array of Observables such as we don't eventually get multiple axis of time split appart ( a metastream ). Using map here instead of flatMap would not get us the response we're expecting but rather it would just return the Observable itself and then we would need to subscribe to that Observable, eventually reaching callback hell in this way.
+
+3. What would happen if we switch the order of take(1) with filter((r:
+Response...)?
+If we were to switch the order of these functions then we would take the first result regardless if it were empty or not. Then we would filter that one-item array and either get nothing if the result was empty or get the actual data that we were expecting if the result were not empty. If we were to switch these functions then the filter would get redundant and we would not get the desired behaviour.
+
+4. What would be the effect of using take(2) instead of take(1) at the end of
+getInterval()?
+if we were to use "take(2)" here then we would just fetch the first two non-empty results from the db, each with a 300ms delay within the eventstream itself.
